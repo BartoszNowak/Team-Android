@@ -12,7 +12,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class QRCodeActivity extends AppCompatActivity {
-    private Button scanButton;
+    private Button scanButton, dataActivityButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,14 @@ public class QRCodeActivity extends AppCompatActivity {
                 integrator.setBeepEnabled(false);
                 integrator.setBarcodeImageEnabled(false);
                 integrator.initiateScan();
+            }
+        });
+        dataActivityButton = (Button) findViewById(R.id.data_activity_button);
+        dataActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(QRCodeActivity.this, DevicesDataActivity.class);
+                startActivity(intent);
             }
         });
     }
