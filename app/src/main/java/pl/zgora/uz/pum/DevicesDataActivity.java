@@ -33,7 +33,8 @@ public class DevicesDataActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                string = "http://pum-swierzaki-backend.193b.starter-ca-central-1.openshiftapps.com/v1/devices/" + editText.getText().toString() + "/records";
+                string = "https://api.myjson.com/bins/j6eh6";
+                //string = "http://pum-swierzaki-backend.193b.starter-ca-central-1.openshiftapps.com/v1/devices/" + editText.getText().toString() + "/records";
                 jsonParse(string);
             }
         });
