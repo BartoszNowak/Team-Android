@@ -41,7 +41,13 @@ public class QRCodeActivity extends AppCompatActivity {
             if (result.getContents() == null) {
                 Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(QRCodeActivity.this, BluetoothCommActivity.class);
+                Bundle b = new Bundle();
+                b.putString("macAddr", result.getContents());
+                intent.putExtras(b);
+                startActivity(intent);
+                finish();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
