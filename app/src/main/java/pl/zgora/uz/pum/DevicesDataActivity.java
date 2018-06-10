@@ -2,39 +2,50 @@ package pl.zgora.uz.pum;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DevicesDataActivity extends AppCompatActivity {
-    private TextView textView;
     private EditText editText;
     private Button button;
     private String string;
+    private JsonArrayRequest ArrayRequest;
+    private RequestQueue requestQueue;
+    private List<Data> dataList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_devices_data);
-        textView = findViewById(R.id.text_view);
         editText = findViewById(R.id.input_id);
+        editText.setSelection(editText.getText().length());
+        recyclerView = findViewById(R.id.recyclerviewid);
         button = findViewById(R.id.button);
-
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //string = "https://api.myjson.com/bins/j6eh6";
                 string = "http://pum-swierzaki-backend.193b.starter-ca-central-1.openshiftapps.com/v1/devices/" + editText.getText().toString() + "/records";
+                dataList.clear();
                 jsonParse(string);
             }
         });
@@ -42,30 +53,46 @@ public class DevicesDataActivity extends AppCompatActivity {
 
     private void jsonParse(String url) {
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            String jsonString = response.replaceAll("\\[|\\]", "");
-                            JSONObject jsonObj = new JSONObject(jsonString);
-                            String idStr = jsonObj.getString("id");
-                            String deviceIdStr = jsonObj.getString("deviceId");
-                            String temperatureStr = jsonObj.getString("temperature");
-                            String humidityStr = jsonObj.getString("humidity");
-                            textView.setText("id: " + idStr + "\ndeviceId: " + deviceIdStr + "\ntemperature: " + temperatureStr + "\nhumidity: " + humidityStr);
+        ArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                JSONObject jsonObject = null;
+
+                for (int i = 0; i < response.length(); i++) {
+
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        Data data = new Data();
+
+                        data.setTemperature(jsonObject.getString("temperature"));
+                        data.setHumidity(jsonObject.getString("humidity"));
+
+                        dataList.add(data);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
+                }
+
+
+                setRvadapter(dataList);
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                textView.setText("unable to get data");
+                Toast.makeText(DevicesDataActivity.this, "Unable to get data.", Toast.LENGTH_SHORT).show();
             }
         });
-        queue.add(stringRequest);
+
+
+        requestQueue = Volley.newRequestQueue(DevicesDataActivity.this);
+        requestQueue.add(ArrayRequest);
+    }
+
+    public void setRvadapter(List<Data> lst) {
+
+        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(this, lst);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(myAdapter);
     }
 }
