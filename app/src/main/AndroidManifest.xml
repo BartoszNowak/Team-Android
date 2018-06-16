@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,8 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BluetoothCommActivity"></activity>
-        <activity android:name=".DevicesDataActivity"></activity>
+        <activity android:name=".BluetoothCommActivity" />
+        <activity android:name=".DevicesDataActivity" />
+        <activity android:name=".TerminalActivity"></activity>
     </application>
 
 </manifest>
