@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="PROJEKT"
+            android:text="@string/projekt"
             android:textColor="@android:color/white"
             android:textSize="34sp" />
 
@@ -62,7 +62,7 @@
                     android:layout_gravity="center_horizontal"
                     android:minHeight="32sp"
                     android:minWidth="32sp"
-                    android:src="@drawable/qrcode24" />
+                    android:src="@drawable/qrcode48" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                     android:text="scan"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textSize="23sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -101,7 +101,7 @@
                     android:layout_gravity="center_horizontal"
                     android:minHeight="32sp"
                     android:minWidth="32sp"
-                    android:src="@drawable/json24" />
+                    android:src="@drawable/json48" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                     android:text="data"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textSize="23sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
