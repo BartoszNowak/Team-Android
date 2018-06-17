@@ -4,42 +4,49 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class QRCodeActivity extends AppCompatActivity {
-    private Button scanButton, dataActivityButton;
+
+    private GridLayout mainGrid;
+    private final Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
-        final Activity activity = this;
-        scanButton = (Button) findViewById(R.id.scan_button);
-        scanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("Scan");
-                integrator.setCameraId(0);
-                integrator.setBeepEnabled(false);
-                integrator.setBarcodeImageEnabled(false);
-                integrator.initiateScan();
-            }
-        });
-        dataActivityButton = (Button) findViewById(R.id.data_activity_button);
-        dataActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(QRCodeActivity.this, DevicesDataActivity.class);
-                startActivity(intent);
-            }
-        });
+        mainGrid = (GridLayout) findViewById(R.id.mainGrid);
+        setSingleEvent(mainGrid);
+    }
+
+    private void setSingleEvent(GridLayout mainGrid) {
+        for (int i = 0; i < mainGrid.getChildCount(); i++) {
+            CardView cardView = (CardView) mainGrid.getChildAt(i);
+            final int buttonId = i;
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (buttonId == 0) {
+                        IntentIntegrator integrator = new IntentIntegrator(activity);
+                        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                        integrator.setPrompt("Scan");
+                        integrator.setCameraId(0);
+                        integrator.setBeepEnabled(false);
+                        integrator.setBarcodeImageEnabled(false);
+                        integrator.initiateScan();
+                    } else if (buttonId == 1) {
+                        Intent intent = new Intent(QRCodeActivity.this, DevicesDataActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
     }
 
     @Override
