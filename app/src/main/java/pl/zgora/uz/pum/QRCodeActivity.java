@@ -59,7 +59,7 @@ public class QRCodeActivity extends AppCompatActivity {
 //                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(QRCodeActivity.this, BluetoothCommActivity.class);
                 Bundle b = new Bundle();
-                b.putString("macAddr", result.getContents());
+                b.putString("macAddr", result.getContents().toUpperCase());
                 intent.putExtras(b);
                 startActivity(intent);
                 finish();

@@ -286,6 +286,19 @@ public class BluetoothCommActivity extends AppCompatActivity {
             }
         });
 
+        final Button buttonTerminal = findViewById(R.id.button_terminal);
+        buttonTerminal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Intent intent = new Intent(BluetoothCommActivity.this, TerminalActivity.class);
+                Bundle b = new Bundle();
+                b.putString("macAddr", macAddress);
+                intent.putExtras(b);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     private class ConnectThread extends Thread {

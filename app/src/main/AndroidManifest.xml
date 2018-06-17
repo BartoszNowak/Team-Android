@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".BluetoothCommActivity" />
         <activity android:name=".DevicesDataActivity" />
+        <activity android:name=".TerminalActivity"></activity>
     </application>
 
 </manifest>
